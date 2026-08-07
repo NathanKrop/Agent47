@@ -10,3 +10,7 @@ build/
 .pytest_cache/
 playwright-report/
 test-results/
+*.db
+*.db-shm
+*.db-wal
+pycheck.txt
