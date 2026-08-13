@@ -69,6 +69,12 @@ def _is_opt_out(message: str | None, event: str | None) -> bool:
     return bool(re.search(r"\b(stop|unsubscribe|cancel|end|quit|opt out|no more)\b", message, re.IGNORECASE))
 
 
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint for deployment monitoring."""
+    return {"status": "ok"}
+
+
 @app.post("/api/inbound")
 async def api_inbound(body: InboundMessage):
     if _is_opt_out(body.message, body.event):
