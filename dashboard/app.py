@@ -1,5 +1,13 @@
 """FastAPI live operations dashboard."""
 
+import sys
+from pathlib import Path
+
+# Force Python to recognize the repository root directory
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import asyncio
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -35,7 +43,11 @@ from fastapi.responses import StreamingResponse
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_db()
+    try:
+        init_db()
+    except Exception as e:
+        print(f"Warning: Database initialization failed: {e}")
+        print("App starting without database. Some features may be unavailable.")
     yield
 
 
