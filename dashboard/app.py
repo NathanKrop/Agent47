@@ -105,9 +105,10 @@ async def api_inbound(body: InboundMessage):
 
 
 def require_dashboard_auth(x_api_key: str | None = Header(None)):
-    if not DASHBOARD_API_KEY:
+    # Allow access if DASHBOARD_API_KEY is not set, empty, or matches
+    if not DASHBOARD_API_KEY or DASHBOARD_API_KEY == "":
         return True
-    if x_api_key == DASHBOARD_API_KEY:
+    if x_api_key and x_api_key == DASHBOARD_API_KEY:
         return True
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
 
